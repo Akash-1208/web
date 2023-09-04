@@ -19,47 +19,47 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/data")
 public class Employeecontroller {
 
 	@Autowired
 	WebClient createClient;
 	
     //Get all posts
-    @GetMapping("/v1/posts")
+    @GetMapping("/v1/get")
     public Flux<Employee> findAll(){
-        return createClient.get().uri("/posts")
+        return createClient.get().uri("/get")
                 .retrieve()
                 .bodyToFlux(Employee.class);
     }
 
     //Get record by id
-    @GetMapping("/v1/posts/{id}")
+    @GetMapping("/v1/get/{id}")
     public Mono<Employee> findById(@PathVariable String id){
         return createClient.get()
-        .uri("/posts/"+id)
+        .uri("/get/"+id)
         .retrieve()
         .bodyToMono(Employee.class);
     }
 
     //Deleting a record by id
-    @DeleteMapping("v1/post/{id}")
-    public Mono<Employee> deletePost(@PathVariable String id){
+    @DeleteMapping("v1/delete/{id}")
+    public Mono<Void> deletePost(@PathVariable String id){
         return createClient.delete()
-        .uri("/posts/"+id)
+        .uri("/delete/"+id)
         .retrieve()
-        .bodyToMono(Employee.class);
+        .bodyToMono(Void.class);
     }
 
     //Posting data
     @PostMapping(path="v1/post",consumes=MediaType.APPLICATION_JSON_VALUE,produces =MediaType.APPLICATION_JSON_VALUE)
-    public Mono<Employee> createpost(@RequestBody Employee employee){
+    public Mono<Void> createpost(@RequestBody Employee employee){
         return createClient.post()
-        .uri("/posts")
+        .uri("/post")
         .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .body(BodyInserters.fromValue(employee))
         .retrieve()
-        .bodyToMono(Employee.class);
+        .bodyToMono(Void.class);
     }
 	
 }

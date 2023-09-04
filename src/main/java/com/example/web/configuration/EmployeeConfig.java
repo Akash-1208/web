@@ -12,7 +12,7 @@ public class EmployeeConfig {
     @Bean
 	public WebClient createClient() {
 		return WebClient.builder()
-        .baseUrl("https://jsonplaceholder.typicode.com")
+        .baseUrl("http://localhost:8080/employees")
 		.defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 		.build();
 	}
